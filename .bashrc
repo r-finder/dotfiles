@@ -8,7 +8,7 @@
 alias ls='ls --color=auto'
 alias ll="ls -l"
 alias la="ls -al"
-
+alias pp="python3"
 
 PS1="[\[$(tput bold)\]\u@\h\[$(tput sgr0)\] \w]\[$(tput sgr0)\]\$"  #http://bashrcgenerator.com/
 
