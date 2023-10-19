@@ -10,5 +10,7 @@ alias ll="ls -l"
 alias la="ls -al"
 alias pp="python3"
 
+alias gs="git status"
+
 PS1="[\[$(tput bold)\]\u@\h\[$(tput sgr0)\] \w]\[$(tput sgr0)\]\$"  #http://bashrcgenerator.com/
 
