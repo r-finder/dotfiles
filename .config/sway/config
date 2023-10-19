@@ -11,7 +11,7 @@ set $down j
 set $up k
 set $right l
 
-set $term foot
+set $term alacritty
 
 default_border pixel 1
 
@@ -22,29 +22,12 @@ xwayland disable
 # on the original workspace that the command was run on.
 set $menu bemenu-run -i -p 'exec:' --fn 'Sans 12' --line-height 24
 
-# Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-# output DP-1 mode 2560x1440@74.780Hz
-#output * bg ~/.config/sway/bg_2560x1440.jpg fill
+output eDP-1 scale 1.5 pos 0,201
+output "Lenovo Group Limited E24q-20 V5FHK692" mode 2560x1440@74.780Hz pos 1707,0
 
-#
-# Example configuration:
-#
-#   output HDMI-A-1 resolution 1920x1080 position 1920,0
-#
-# You can get the names of your outputs by running: swaymsg -t get_outputs
+bindswitch --reload --locked lid:on output eDP-1 disable
+bindswitch --reload --locked lid:off output eDP-1 enable
 
-### Idle configuration
-#
-# Example configuration:
-#
-# exec swayidle -w \
-#          timeout 300 'swaylock -f -c 000000' \
-#          timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
-#          before-sleep 'swaylock -f -c 000000'
-#
-# This will lock your screen after 300 seconds of inactivity, then turn off
-# your displays after another 300 seconds, and turn your screens back on when
-# resumed. It will also lock your screen before your computer goes to sleep.
 
 ### Input configuration
 input "type:keyboard" {
@@ -59,23 +42,37 @@ input "type:pointer" {
 	pointer_accel -0.8
 }
 
+input "type:touchpad" {
+	dwt enabled
+	tap enabled
+	natural_scroll enabled
+	pointer_accel 0.3
+}
+
+
 ### Key bindings
 #
 # Basics:
 #
     # Start a terminal
     bindsym $mod+Return exec $term
-    bindsym $mod+f exec firefox
-
+    bindsym $mod+Shift+f exec firefox
+    bindsym $mod+Shift+c exec code
+    bindsym $mod+Shift+o exec obsidian
+    
     # Kill focused window
     bindsym $mod+Shift+q kill
 
     # Start your launcher
-    bindsym $mod+d exec $menu
+    bindsym $mod+p exec $menu
 
     #wireplumber
-    bindsym $mod+plus exec wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+
-    bindsym $mod+minus exec wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%-
+    bindsym $mod+Page_Up exec wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+
+    bindsym $mod+Page_Down exec wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%-
+    bindsym XF86AudioMute exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+    bindsym XF86AudioRaiseVolume exec wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+
+    bindsym XF86AudioLowerVolume exec wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%-
+
 
     # Drag floating windows by holding down $mod and left mouse button.
     # Resize them with right mouse button + $mod.
@@ -85,7 +82,7 @@ input "type:pointer" {
     floating_modifier $mod normal
 
     # Reload the configuration file
-    bindsym $mod+Shift+c reload
+    bindsym $mod+Shift+r reload
 
     # Exit sway (logs you out of your Wayland session)
     bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
@@ -155,7 +152,7 @@ input "type:pointer" {
     bindsym $mod+e layout toggle split
 
     # Make the current focus fullscreen
-    bindsym $mod+Shift+f fullscreen
+    bindsym $mod+f fullscreen
 
     # Toggle the current focus between tiling and floating mode
     bindsym $mod+Shift+space floating toggle
@@ -165,21 +162,8 @@ input "type:pointer" {
 
     # Move focus to the parent container
     bindsym $mod+a focus parent
-#
-# Scratchpad:
-#
-    # Sway has a "scratchpad", which is a bag of holding for windows.
-    # You can send windows there and get them back later.
 
-    # Move the currently focused window to the scratchpad
-    #bindsym $mod+Shift+minus move scratchpad
 
-    # Show the next scratchpad window or hide the focused scratchpad window.
-    # If there are multiple scratchpad windows, this command cycles through them.
-    #bindsym $mod+minus scratchpad show
-#
-# Resizing containers:
-#
 mode "resize" {
     # left will shrink the containers width
     # right will grow the containers width
@@ -207,18 +191,7 @@ bindsym $mod+r mode "resize"
 #
 # Read `man 5 sway-bar` for more information about this section.
 bar {
-    position top
-    mode invisible
-
-    # When the status_command prints a new line to stdout, swaybar updates.
-    # The default just shows the current date and time.
-    status_command while ~/.config/sway/status.sh; do sleep 10; done
-
-    colors {
-        statusline #ffffff
-        background #323232
-        inactive_workspace #32323200 #32323200 #5c5c5c
-    }
+    swaybar_command waybar
 }
 
 include /etc/sway/config.d/*
