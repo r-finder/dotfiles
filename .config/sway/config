@@ -23,7 +23,8 @@ xwayland disable
 set $menu bemenu-run -i -p 'exec:' --fn 'Sans 12' --line-height 24
 
 output eDP-1 scale 1.5 pos 0,201
-output "Lenovo Group Limited E24q-20 V5FHK692" mode 2560x1440@74.780Hz pos 1707,0
+output "Lenovo Group Limited E24q-20 V5FHK692" mode 2560x1440@74.780Hz pos -2560,0 
+#1707,0
 
 bindswitch --reload --locked lid:on output eDP-1 disable
 bindswitch --reload --locked lid:off output eDP-1 enable
